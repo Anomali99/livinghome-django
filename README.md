@@ -1,7 +1,8 @@
 # LivingHome
 
 > python + django + sqlite3
-> LivingHome is a simple web application designed to monitor the marketing of a product across three platforms (web, Facebook, Instagram). The project aims to fulfill an E-business assignment with the theme of E-Marketing for the Living Home store.
+
+LivingHome is a simple web application designed to monitor the marketing of a product across three platforms (web, Facebook, Instagram). The project aims to fulfill an E-business assignment with the theme of E-Marketing for the Living Home store.
 
 ## Technology stack
 
