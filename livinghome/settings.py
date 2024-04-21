@@ -56,7 +56,7 @@ ROOT_URLCONF = 'livinghome.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,10 +118,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = '/home/livinghome.khaylila.my.id/public_html/static'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),
-                    '/home/livinghome.khaylila.my.id/public_html/livinghome/static',]
-UPLOAD_DIRS = os.path.join(BASE_DIR, 'static//upload')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+UPLOAD_DIRS = [os.path.join(BASE_DIR, 'static//upload'),]
 
 SESSION_COOKIE_AGE = 3600 * 24
 
