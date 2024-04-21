@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% load static %} {% block title %}
+<title>LivingHome-Admin</title>
+{% endblock %} {% block sccApp %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{%  static 'app/css/product.css' %}"
+/>
+{% endblock %} {% block content %}
+<section class="login">
+  <div class="container">
+    <div class="header">
+      <h1>Add Product</h1>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="title">Title</label>
+      <input type="text" placeholder="title" id="title" name="title" />
+      <label for="price">Price</label>
+      <input type="number" placeholder="price" id="price" name="price" />
+      <label>Description</label>
+      <textarea
+        placeholder="description"
+        name="description"
+        id="description"
+        cols="30"
+        rows="10"
+      ></textarea>
+      <label for="cover">Image</label>
+      <input type="file" id="cover" name="cover" accept="image/*" multiple />
+      <label for="wa">WhatsApp Number</label>
+      <input type="number" id="wa" name="wa" placeholder="WhatsApp Number" />
+      <button type="submit">Add</button>
+    </form>
+  </div>
+</section>
+{% endblock %} {% block scriptApp %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("form").addEventListener("submit", function (event) {
+      var inputs = this.querySelectorAll("input, textarea");
+      var isFormValid = true;
+      for (var i = 0; i < inputs.length; i++) {
+        if (!inputs[i].value.trim()) {
+          isFormValid = false;
+          break;
+        }
+      }
+      if (!isFormValid) {
+        event.preventDefault();
+        alert("Semua input harus diisi!");
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 class Users(models.Model):
-    id = models.IntegerField(primary_key=True)
     username = models.TextField(null=False, unique=True)
     password = models.TextField(null=False)
 
@@ -11,7 +10,6 @@ class Users(models.Model):
     
 
 class Product(models.Model):
-    id = models.IntegerField(primary_key=True)
     title = models.TextField(null=False)
     description = models.TextField(null=False)
     price = models.TextField(null=False)
@@ -21,7 +19,6 @@ class Product(models.Model):
     
 
 class Image(models.Model):
-    id = models.IntegerField(primary_key=True)
     image_uri = models.TextField(null=False)
     id_product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
 
@@ -30,7 +27,6 @@ class Image(models.Model):
     
 
 class Comment(models.Model):
-    id = models.IntegerField(primary_key=True)
     name = models.TextField(null=False)
     comment = models.TextField(null=False)
     id_product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
@@ -40,11 +36,10 @@ class Comment(models.Model):
     
 
 class Link(models.Model):
-    id = models.IntegerField(primary_key=True)
-    no_wa = models.TimeField(null=False)
-    web_link = models.TimeField(null=False)
-    fb_link = models.TimeField(null=False)
-    ig_link = models.TimeField(null=False)
+    no_wa = models.TextField(null=False)
+    web_link = models.TextField(null=False)
+    fb_link = models.TextField(null=False)
+    ig_link = models.TextField(null=False)
     web_click = models.IntegerField(null=False, default=0)
     fb_click = models.IntegerField(null=False, default=0)
     ig_click = models.IntegerField(null=False, default=0)
@@ -58,7 +53,6 @@ class Link(models.Model):
 
 
 class Date(models.Model):
-    id = models.IntegerField(primary_key=True)
     platform = models.TextField(null=False)
     date = models.DateTimeField(null=False)
     id_link = models.ForeignKey(Link, on_delete=models.CASCADE, related_name='dates')

@@ -1,0 +1,66 @@
+section {
+  margin-top: 5rem;
+  padding: 0.5rem 7%;
+}
+
+section .title {
+  font-family: "areo", sans-serif;
+  font-size: 2rem;
+}
+
+.products .row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.products .title-container {
+  justify-content: space-between;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+button {
+  background-color: var(--primary);
+  width: 25%;
+  margin-left: 75%;
+  color: #fff;
+  font-family: "areo", sans-serif;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+}
+
+.row .product-card {
+  text-align: center;
+  border: 1px solid #666;
+  border-radius: 1rem;
+}
+
+.products .product-image img {
+  border-top-right-radius: 0.9rem;
+  border-top-left-radius: 0.9rem;
+  height: 25rem;
+  width: 100%;
+  object-fit: cover;
+}
+
+h3 {
+  font-size: 2rem;
+  padding: 1rem;
+  font-family: "areo", sans-serif;
+}
+
+.products .product-price {
+  padding-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "areo", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
