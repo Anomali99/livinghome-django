@@ -88,7 +88,7 @@ def detail(request, id):
         }
         return render(request,'app/detail.html',context)
     else:
-        return render(request,'app/404.html')
+        return render(request,'404.html')
 
 
 def admin(request):
