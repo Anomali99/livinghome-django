@@ -32,9 +32,9 @@ def product(request):
         id = Product.objects.order_by('-id').first()
         Link.objects.create(
             no_wa = wa,
-            web_link = generateLink(id),
-            fb_link = generateLink(id),
-            ig_link = generateLink(id),
+            web_link = generateLink(id.id),
+            fb_link = generateLink(id.id),
+            ig_link = generateLink(id.id),
             id_product = product,
         )
         index = 1
@@ -88,7 +88,7 @@ def detail(request, id):
         }
         return render(request,'app/detail.html',context)
     else:
-        return render(request,'404.html')
+        return render(request,'app/404.html')
 
 
 def admin(request):

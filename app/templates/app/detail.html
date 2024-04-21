@@ -9,7 +9,7 @@
   <div class="product-preview">
     {% for image in product.images.all %}
     <img
-      src="{% static 'app/upload/' %}{{ image.image_uri }}"
+      src="{% static 'upload/' %}{{ image.image_uri }}"
       class="bg"
       alt="ok"
     />
