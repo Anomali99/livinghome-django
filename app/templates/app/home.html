@@ -1,0 +1,38 @@
+{% extends 'base.html' %} {% load static %} {% block sccApp %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{%  static 'app/css/home.css' %}"
+/>
+{% endblock %} {% block content %}
+<section class="products">
+  {% if login %}
+  <div class="title-container">
+    <h1 class="title">Product</h1>
+    <button onclick="window.location.href='/product'">Add Product</button>
+  </div>
+  {% else %}
+  <h1 class="title">Terlaris</h1>
+  {% endif %}
+  <div class="row">
+    <!-- start loop-->
+    {% for product in products %}
+    <div class="product-card">
+      <a href="/detail/{{ product.id }}">
+        <div class="product-image">
+          <img
+            src="{% static 'upload/' + product.images.0.image_uri %}"
+            alt="{{ product.id }}"
+          />
+        </div>
+        <div class="product-content">
+          <h3>{{ product.title }}</h3>
+          <div class="product-price">IDR {{ product.price }}</div>
+        </div></a
+      >
+    </div>
+    {% endfor %}
+    <!-- end loop-->
+  </div>
+</section>
+{% endblock %} {% block scriptApp %} {% endblock %}

@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block title %}
+    <title>LivingHome</title>
+    {% endblock %}
+    <link
+      rel="icon"
+      type="image/png"
+      href="{%  static 'asset/icon/favicon.png' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{%  static 'css/base.css' %}"
+    />
+    {% block sccApp %} {% endblock %}
+  </head>
+  <body>
+    <!-- navbar start -->
+    <nav class="navbar">
+      <div>
+        <img src="{%  static 'asset/icon/favicon.png' %}" alt="" />
+        <a href="/" class="navbar-logo">Living<span>Home</span></a>
+      </div>
+      {% if login %}
+      <div class="menu">
+        <a href="/monitoring">Monitoring</a>
+        <a href="/logout">Logout</a>
+      </div>
+      {% endif %}
+    </nav>
+    <!-- navbar end -->
+    {% block content %} {% endblock %} {% block scriptApp %} {% endblock %}
+  </body>
+</html>

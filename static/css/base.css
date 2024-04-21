@@ -1,0 +1,90 @@
+:root {
+  --primary: #b6895b;
+  --secondary: #5c5b61;
+  --text: #98716a;
+  --bg: #010101;
+}
+
+@font-face {
+  font-family: "poetsenone";
+  src: url("/static/asset/fonts/POETSENONE-REGULAR.TTF") format("truetype");
+}
+
+@font-face {
+  font-family: "areo";
+  src: url("/static/asset/fonts/AERO_MATICS_BOLD.TTF") format("truetype");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-decoration: none;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 7%;
+  background: var(--bg);
+  border-bottom: 1px solid var(--primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.navbar div {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .menu a {
+  font-family: "areo", sans-serif;
+  margin-left: 1rem;
+  color: var(--text);
+}
+
+.navbar .navbar-logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  font-family: "poetsenone", sans-serif;
+}
+
+.navbar .navbar-logo span {
+  color: var(--text);
+}
+
+/* Laptop */
+@media (max-width: 1366px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  html {
+    font-size: 62.5%;
+  }
+  .navbar div img {
+    width: 4rem;
+    height: auto;
+  }
+}
+
+/* Mobile */
+@media (max-width: 450px) {
+  html {
+    font-size: 55%;
+  }
+  .navbar div img {
+    width: 3.5rem;
+    height: auto;
+  }
+}
