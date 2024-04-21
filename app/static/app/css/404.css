@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  background-color: #010101;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 7%;
+  height: 100vh;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+}
+
+h1 {
+  font-family: "poetsenone", sans-serif;
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+h1 span {
+  color: var(--text);
+}
+h2 {
+  font-family: "areo", sans-serif;
+  font-size: 3rem;
+  color: aliceblue;
+}

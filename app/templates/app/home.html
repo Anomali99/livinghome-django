@@ -18,10 +18,11 @@
     <!-- start loop-->
     {% for product in products %}
     <div class="product-card">
+      {% with product.images.first as first_image %}
       <a href="/detail/{{ product.id }}">
         <div class="product-image">
           <img
-            src="{% static 'upload/' + product.images.0.image_uri %}"
+            src="{% static 'upload/' %}{{ first_image.image_uri }}"
             alt="{{ product.id }}"
           />
         </div>
@@ -30,6 +31,7 @@
           <div class="product-price">IDR {{ product.price }}</div>
         </div></a
       >
+      {% endwith %}
     </div>
     {% endfor %}
     <!-- end loop-->
