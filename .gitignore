@@ -90,5 +90,7 @@ local_settings.py
 db.sqlite3
 migrations/*
 !migrations/__init__.py
+app/migrations/*
+!app/migrations/__init__.py
 static/upload/*
 !static/upload/__init__.py

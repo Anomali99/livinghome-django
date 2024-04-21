@@ -121,6 +121,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 UPLOAD_DIRS = os.path.join(BASE_DIR, 'static/upload')
 
+SESSION_COOKIE_AGE = 3600 * 24
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

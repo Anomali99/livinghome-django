@@ -1,14 +1,6 @@
 from django.db import models
 
 # Create your models here.
-class Users(models.Model):
-    username = models.TextField(null=False, unique=True)
-    password = models.TextField(null=False)
-
-    def __str__(self):
-        return self.username
-    
-
 class Product(models.Model):
     title = models.TextField(null=False)
     description = models.TextField(null=False)

@@ -1,3 +1,6 @@
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import check_password
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.conf import settings
 from .models import Product, Image, Link
@@ -7,7 +10,7 @@ import os
 # Create your views here.
 def home(request):
     context = {
-        'login': True,
+        'login': request.session.get('login'),
         'products': [],
     }
     return render(request, 'app/home.html', context)
@@ -42,5 +45,26 @@ def product(request):
                 for chunk in image.chunks():
                     f.write(chunk)
             index = index + 1
-
     return render(request, 'app/product.html')
+
+def admin(request):
+    if request.session.get('login'):
+        return HttpResponseRedirect('/')
+    message = ''
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = User.objects.filter(username=username).first()
+        if user and check_password(password, user.password):
+            request.session['login'] = True
+            return HttpResponseRedirect('/')
+        elif user:
+            message = 'password salah'
+        else:
+            message = 'username tidak ditemukan'
+    context = {'message':message}
+    return render(request,'app/admin.html',context)
+
+def logout(request):
+    request.session.pop('login')
+    return HttpResponseRedirect('/')

@@ -50,6 +50,12 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## Add Admin User
+
+```bash
+python manage.py createsuperuser
+```
+
 ## Team
 
 - Muhammad Saiful Arifin (09020622035)
