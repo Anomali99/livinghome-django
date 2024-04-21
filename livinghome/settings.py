@@ -119,7 +119,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = '/home/livinghome.khaylila.my.id/public_html/static'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),
+                    '/home/livinghome.khaylila.my.id/public_html/livinghome/static',]
 UPLOAD_DIRS = os.path.join(BASE_DIR, 'static//upload')
 
 SESSION_COOKIE_AGE = 3600 * 24
