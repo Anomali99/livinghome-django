@@ -7,12 +7,12 @@
 
 @font-face {
   font-family: "poetsenone";
-  src: url("/static/asset/fonts/POETSENONE-REGULAR.TTF") format("truetype");
+  src: url("../asset/fonts/POETSENONE-REGULAR.TTF") format("truetype");
 }
 
 @font-face {
   font-family: "areo";
-  src: url("/static/asset/fonts/AERO_MATICS_BOLD.TTF") format("truetype");
+  src: url("../asset/fonts/AERO_MATICS_BOLD.TTF") format("truetype");
 }
 
 * {
