@@ -1,29 +1,3 @@
-:root {
-  --primary: #b6895b;
-  --secondary: #5c5b61;
-  --text: #98716a;
-  --bg: #010101;
-}
-
-@font-face {
-  font-family: "poetsenone";
-  src: url("/static/asset/fonts/POETSENONE-REGULAR.TTF") format("truetype");
-}
-
-@font-face {
-  font-family: "areo";
-  src: url("/static/asset/fonts/AERO_MATICS_BOLD.TTF") format("truetype");
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  outline: none;
-  border: none;
-  text-decoration: none;
-}
-
 .navbar {
   display: flex;
   align-items: center;
@@ -64,27 +38,5 @@
 @media (max-width: 1366px) {
   html {
     font-size: 75%;
-  }
-}
-
-/* Tablet */
-@media (max-width: 768px) {
-  html {
-    font-size: 62.5%;
-  }
-  .navbar div img {
-    width: 4rem;
-    height: auto;
-  }
-}
-
-/* Mobile */
-@media (max-width: 450px) {
-  html {
-    font-size: 55%;
-  }
-  .navbar div img {
-    width: 3.5rem;
-    height: auto;
   }
 }

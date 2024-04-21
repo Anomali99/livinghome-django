@@ -1,0 +1,91 @@
+<form method="post">
+  {% csrf_token %} {% with product.links.first as link %}
+  <label for="title">Title</label>
+  <input
+    type="text"
+    id="title"
+    name="title"
+    placeholder="title"
+    value="{{ product.title }}"
+  />
+  <label for="price">Price</label>
+  <input
+    type="number"
+    id="price"
+    name="price"
+    placeholder="price"
+    value="{{ product.price }}"
+  />
+  <label>Description</label>
+  <textarea
+    name="description"
+    id="description"
+    placeholder="description"
+    cols="30"
+    rows="10"
+  >
+  {{ product.description }}</textarea
+  >
+  <label for="wa">WhatsApp</label>
+  <input
+    type="text"
+    id="wa"
+    name="wa"
+    placeholder="wa"
+    value="{{ link.no_wa }}"
+  />
+  <label for="webCheckout">Web Checkout</label>
+  <input
+    type="number"
+    id="webCheckout"
+    name="webCheckout"
+    placeholder="web checkout"
+    value="{{ link.web_checkout }}"
+  />
+  <label for="igCheckout">Instagram Checkout</label>
+  <input
+    type="number"
+    id="igCheckout"
+    name="igCheckout"
+    placeholder="instagram checkout"
+    value="{{ link.ig_checkout }}"
+  />
+  <label for="price">Facebook Checkout</label>
+  <input
+    type="number"
+    id="fbCheckout"
+    name="fbCheckout"
+    placeholder="facebook checkout"
+    value="{{ link.fb_checkout }}"
+  />
+  <label for="wa">Web Link</label>
+  <input
+    type="text"
+    id="webLink"
+    name="webLink"
+    placeholder="web link"
+    value="{{ IPserver }}/web/{{ link.web_link }}"
+    readonly
+  />
+  <label for="wa">Instagram Link</label>
+  <input
+    type="text"
+    id="igLink"
+    name="igLink"
+    placeholder="instagram link"
+    value="{{ IPserver }}/ig/{{ link.ig_link }}"
+    readonly
+  />
+  <label for="fbLink">Facebook Link</label>
+  <input
+    type="text"
+    id="fbLink"
+    name="fbLink"
+    placeholder="facebook link"
+    value="{{ IPserver }}/fb/{{ link.fb_link }}"
+    readonly
+  />
+  <input type="hidden" name="form_type" value="update" />
+  <button type="submit">update</button>
+  {% endwith %}
+</form>

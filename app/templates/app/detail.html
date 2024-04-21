@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% load static %} {% block sccApp %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{%  static 'app/css/detail.css' %}"
+/>
+{% endblock %} {% block content %}
+<section>
+  <div class="product-preview">
+    {% for image in product.images.all %}
+    <img
+      src="{% static 'upload/' %}{{ image.image_uri }}"
+      class="bg"
+      alt="ok"
+    />
+    {% endfor %}
+  </div>
+  {% if login %} {% include 'app/detailadmin.html' %} {% else %} 
+  {% include 'app/detailuser.html' %} {% endif %}
+</section>
+{% endblock %} {% block scriptApp %} {% endblock %}
