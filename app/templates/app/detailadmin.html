@@ -86,6 +86,9 @@
     readonly
   />
   <input type="hidden" name="form_type" value="update" />
-  <button type="submit">update</button>
+  <div class="btn-submit">
+    <button type="submit"  name="action" value="delete" style="background-color: red;">delete</button>
+    <button type="submit"  name="action" value="update" style="background-color: green;">update</button>
+  </div>
   {% endwith %}
 </form>

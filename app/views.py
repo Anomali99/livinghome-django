@@ -64,23 +64,28 @@ def detail(request, id):
                     )
                 new.save()
             elif type == 'update':
-                title = request.POST.get('title')
-                price = request.POST.get('price')
-                description = request.POST.get('description')
-                wa = request.POST.get('wa')
-                webCheckout = request.POST.get('webCheckout')
-                igCheckout = request.POST.get('igCheckout')
-                fbCheckout = request.POST.get('fbCheckout')
-                product.title = title
-                product.price = price
-                product.description =description
-                product.save()
-                link = Link.objects.filter(id_product=int(id)).first()
-                link.no_wa = wa
-                link.web_checkout = webCheckout
-                link.ig_checkout = igCheckout
-                link.fb_checkout = fbCheckout
-                link.save()
+                action = request.POST.get('action')
+                if action == 'update':
+                    title = request.POST.get('title')
+                    price = request.POST.get('price')
+                    description = request.POST.get('description')
+                    wa = request.POST.get('wa')
+                    webCheckout = request.POST.get('webCheckout')
+                    igCheckout = request.POST.get('igCheckout')
+                    fbCheckout = request.POST.get('fbCheckout')
+                    product.title = title
+                    product.price = price
+                    product.description =description
+                    product.save()
+                    link = Link.objects.filter(id_product=int(id)).first()
+                    link.no_wa = wa
+                    link.web_checkout = webCheckout
+                    link.ig_checkout = igCheckout
+                    link.fb_checkout = fbCheckout
+                    link.save()
+                elif action == 'delete':
+                    product.delete()
+                    return HttpResponseRedirect('/')
         context = {
             'login': request.session.get('login'),
             'product': product,
