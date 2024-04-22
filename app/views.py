@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.conf import settings
 from .models import Product, Image, Link, Comment
 from datetime import datetime
-from .generate import generateLink
+from .generate import generateLink, getChartAll, getChartProduct, getChartByDate, getChartProductByDate
 import os
 
 # Create your views here.
@@ -101,6 +101,7 @@ def admin(request):
         user = User.objects.filter(username=username).first()
         if user and check_password(password, user.password):
             request.session['login'] = True
+            request.session['idUser'] = user.id
             return HttpResponseRedirect('/')
         elif user:
             message = 'password salah'
@@ -111,4 +112,45 @@ def admin(request):
 
 def logout(request):
     request.session.pop('login')
+    request.session.pop('idUser')
     return HttpResponseRedirect('/')
+
+def monitoring(request):
+    if request.session.get('login') != True:
+        return HttpResponseRedirect('/')
+    else:
+        idUser = request.session.get('idUser')
+        charts = []
+        menu = ''
+        idProduct = None
+        date1 = datetime.now()
+        date2 = datetime.now()
+        if request.method == 'POST':
+            menu = request.POST.get('cbx-chart')
+            if menu == '3':
+                date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
+                date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
+                charts = getChartByDate(idUser=idUser,date1=date1,date2=date2)
+            elif menu in ['2','4',]:
+                idProduct = Product.objects.filter(id=request.POST.get('id_product')).first()
+                if menu == '2':
+                    charts = getChartProduct(idUser=idUser,idProduct=idProduct.id)
+                elif menu == '4':
+                    date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
+                    date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
+                    charts = getChartProductByDate(idUser=idUser,idProduct=idProduct,date1=date1,date2=date2)
+            else:
+                charts = getChartAll(idUser)
+        else:
+            charts = getChartAll(idUser)
+
+        context = {
+            'login': request.session.get('login'),
+            'products': Product.objects.all(),
+            'charts': charts,
+            'menu': menu,
+            'idProduct':idProduct,
+            'date_1':date1.strftime("%Y-%m-%d"),
+            'date_2':date2.strftime("%Y-%m-%d"),
+        }
+        return render(request,'app/monitoring.html',context)

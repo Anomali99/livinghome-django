@@ -8,6 +8,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+    def mini_title(self, max_char:str=25):
+        if len(self.title) > max_char:
+            return self.title[:max_char] + "..."
+        else:
+            return self.title
     
 
 class Image(models.Model):
@@ -42,6 +47,8 @@ class Link(models.Model):
 
     def __str__(self):
         return f"no_wa={self.no_wa}, web_link={self.web_link}, fb_link={self.fb_link}, ig_link={self.ig_link}"
+    def total_clicks(self):
+        return self.web_click + self.ig_click + self.fb_click
 
 
 class Date(models.Model):

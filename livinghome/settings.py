@@ -119,7 +119,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
-UPLOAD_DIRS = os.path.join(BASE_DIR, 'static//upload')
+UPLOAD_DIRS = os.path.join(BASE_DIR, 'static/upload')
+EXPORT_DIRS = os.path.join(BASE_DIR, 'static/export')
 
 
 SESSION_COOKIE_AGE = 3600 * 24
