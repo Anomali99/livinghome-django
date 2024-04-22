@@ -8,6 +8,7 @@ urlpatterns = [
     path('logout/', views.logout),
     path('product/', views.product),
     path('detail/<id>', views.detail),
+    path('monitoring/', views.monitoring),
     path('web/<token>', api.webLink),
     path('ig/<token>', api.igLink),
     path('fb/<token>', api.fbLink),

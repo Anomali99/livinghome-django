@@ -92,5 +92,7 @@ migrations/*
 !migrations/__init__.py
 */migrations/*
 !*/migrations/__init__.py
-*/static/app/upload/*
-!*/static/app/upload/__init__.py
+*/upload/*
+!*/upload/__init__.py
+*/export/*
+!*/export/__init__.py
