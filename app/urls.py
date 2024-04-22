@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from . import api
+from . import testing
 
 urlpatterns = [
     path('', views.home),
@@ -12,4 +13,5 @@ urlpatterns = [
     path('web/<token>', api.webLink),
     path('ig/<token>', api.igLink),
     path('fb/<token>', api.fbLink),
+    path('dummy/<token>', testing.dummy),
 ]
