@@ -127,27 +127,29 @@ def monitoring(request):
         idUser = request.session.get('idUser')
         charts = []
         menu = ''
+        menuChart = ''
         idProduct = None
         date1 = datetime.now()
         date2 = datetime.now()
         if request.method == 'POST':
             menu = request.POST.get('cbx-chart')
+            menuChart = request.POST.get('chart-style')
             if menu == '3':
                 date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
                 date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
-                charts = getChartByDate(idUser=idUser,date1=date1,date2=date2)
+                charts = getChartByDate(style=menuChart,idUser=idUser,date1=date1,date2=date2)
             elif menu in ['2','4',]:
                 idProduct = Product.objects.filter(id=request.POST.get('id_product')).first()
                 if menu == '2':
-                    charts = getChartProduct(idUser=idUser,idProduct=idProduct.id)
+                    charts = getChartProduct(style=menuChart,idUser=idUser,idProduct=idProduct.id)
                 elif menu == '4':
                     date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
                     date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
-                    charts = getChartProductByDate(idUser=idUser,idProduct=idProduct,date1=date1,date2=date2)
+                    charts = getChartProductByDate(style=menuChart,idUser=idUser,idProduct=idProduct,date1=date1,date2=date2)
             else:
-                charts = getChartAll(idUser)
+                charts = getChartAll(style=menuChart, idUser=idUser)
         else:
-            charts = getChartAll(idUser)
+            charts = getChartAll(style='1', idUser=idUser)
 
         context = {
             'login': request.session.get('login'),
@@ -157,5 +159,6 @@ def monitoring(request):
             'idProduct':idProduct,
             'date_1':date1.strftime("%Y-%m-%d"),
             'date_2':date2.strftime("%Y-%m-%d"),
+            'menuChart':menuChart,
         }
         return render(request,'app/monitoring.html',context)

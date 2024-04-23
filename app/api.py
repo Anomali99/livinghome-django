@@ -19,7 +19,7 @@ def webLink(request, token):
         walink = getWALink(link.no_wa,link.id_product.title)
         return HttpResponseRedirect(walink)
     else:
-        return render(request,'404.html')
+        return render(request,'app/404.html')
 
 def igLink(request, token):
     link = Link.objects.filter(ig_link=token).first()
@@ -36,7 +36,7 @@ def igLink(request, token):
         walink = getWALink(link.no_wa,link.id_product.title)
         return HttpResponseRedirect(walink)
     else:
-        return render(request,'404.html')
+        return render(request,'app/404.html')
 
 def fbLink(request, token):
     link = Link.objects.filter(fb_link=token).first()
@@ -53,4 +53,4 @@ def fbLink(request, token):
         walink = getWALink(link.no_wa,link.id_product.title)
         return HttpResponseRedirect(walink)
     else:
-        return render(request,'404.html')
+        return render(request,'app/404.html')

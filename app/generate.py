@@ -18,54 +18,46 @@ def generateLink(id) -> str:
     generate = ''.join(random.choices('0123456789', k=10))  
     return f'{generate}{str(id)}'
 
-def getRangeAll() -> int:
-    results = Date.objects.values('platform').annotate(total=Count('platform'))
-    max_count = 10 
-    for result in results:
-        if max_count < result['total']:
-            max_count = result['total']
-    return max_count
 
-def getRange(date1: datetime, date2: datetime) -> int:
-    results = Date.objects.filter(date__range=(date1, date2)).values('platform').annotate(total=Count('platform'))
-    max_count = 10
-    for result in results:
-        if max_count < result['total']:
-            max_count = result['total']
-    return max_count
+def getRange(result) -> int:
+    max_range = 10
+    for count in result['dates'] :
+        if count['total'] > max_range:
+            max_range = count['total'] + 10
+    return max_range
 
-def getChartAll(idUser):
+def getChartAll(style:str,idUser):
     image_uris = []
-    max_range = getRangeAll()
     for x in ['web', 'ig', 'fb']:
-        for result in getDatesAll(x):
-            filepath = generateChart(result,max_range,x,idUser)
+        results = getDatesAll(x)
+        for result in results:
+            filepath = generateChart(style,result,getRange(result),x,idUser)
             image_uris.append(filepath)
     return image_uris
 
-def getChartProduct(idUser,idProduct):
+def getChartProduct(style:str,idUser,idProduct):
     image_uris = []
-    max_range = getRangeAll()
     for x in ['web', 'ig', 'fb']:
-        for result in getDatesProduct(x,idProduct):
-            filepath = generateChart(result,max_range,x,idUser)
+        results = getDatesProduct(x,idProduct)
+        for result in results:
+            filepath = generateChart(style,result,getRange(result),x,idUser)
             image_uris.append(filepath)
     return image_uris
 
-def getChartByDate(idUser,date1:datetime,date2:datetime):
+def getChartByDate(style:str,idUser,date1:datetime,date2:datetime):
     image_uris = []
-    max_range = getRange(date1=date1,date2=date2)
     for x in ['web', 'ig', 'fb']:
-        for result in getDatesByDate(x,date1,date2):
-            filepath = generateChart(result,max_range,x,idUser)
+        results = getDatesByDate(x,date1,date2)
+        for result in results:
+            filepath = generateChart(style,result,getRange(result),x,idUser)
             image_uris.append(filepath)
     return image_uris
 
-def getChartProductByDate(idUser,idProduct,date1:datetime,date2:datetime):
+def getChartProductByDate(style:str,idUser,idProduct,date1:datetime,date2:datetime):
     image_uris = []
-    max_range = getRange(date1=date1,date2=date2)
     for x in ['web', 'ig', 'fb']:
-        for result in getDatesProductByDate(x,idProduct,date1,date2):
-            filepath = generateChart(result,max_range,x,idUser)
+        results = getDatesProductByDate(x,idProduct,date1,date2)
+        for result in results:
+            filepath = generateChart(style,result,getRange(result),x,idUser)
             image_uris.append(filepath)
     return image_uris

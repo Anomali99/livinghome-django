@@ -14,16 +14,22 @@
       <div class="date-between">
         <input type="date" id="date1" name="date1" placeholder="date1" />
         <input type="date" id="date2" name="date2" placeholder="date2" />
+      </div>
+      <div class="menu-container">
+        <select name="chart-style" id="chart-style">
+          <option value="1" selected>plot</option>
+          <option value="2">bar</option>
+        </select>
+        <select name="cbx-chart" id="cbx-chart">
+          <option value="1" selected>all</option>
+          <option value="2">product</option>
+          <option value="3">custom</option>
+          <option value="4">custom Product</option>
+        </select>
         <button type="submit" id="btn-submit">submit</button>
       </div>
-      <select name="cbx-chart" id="cbx-chart">
-        <option value="1" selected>all</option>
-        <option value="2">product</option>
-        <option value="3">custom</option>
-        <option value="4">custom Product</option>
-      </select>
     </div>
-    <input type="text" id="id_product" name="id_product" hidden />
+    <input type="text" id="id_product" name="id_product" hidden value="{{ idProduct.id }}"/>
   </form>
   <div class="list-product">
     {% for product in products %}
@@ -68,7 +74,11 @@
         <h2>Web Click</h2>
         <h2>IG Click</h2>
         <h2>FB Click</h2>
+        <h2>Web Checkout</h2>
+        <h2>IG Checkout</h2>
+        <h2>FB Checkout</h2>
         <h2>Total Click</h2>
+        <h2>Total Checkout</h2>
       </div>
       {% for product in products %}
       {% with product.links.first as first_link %}
@@ -79,9 +89,11 @@
         <h3>{{ first_link.web_click }}</h3>
         <h3>{{ first_link.ig_click }}</h3>
         <h3>{{ first_link.fb_click }}</h3>
-        <h3>
-          {{ first_link.total_clicks }}
-        </h3>
+        <h3>{{ first_link.web_checkout }}</h3>
+        <h3>{{ first_link.ig_checkout }}</h3>
+        <h3>{{ first_link.fb_checkout }}</h3>
+        <h3>{{ first_link.total_clicks }}</h3>
+        <h3>{{ first_link.total_checkout }}</h3>
       </div>
       {% endwith %}
       {% endfor %}
@@ -90,8 +102,8 @@
 </section>
 
 {% endblock %} {% block scriptApp %}
-<div id="idProduct" style="display: none;">{{ idProduct.id }}</div>
 <div id="menu" style="display: none;">{{ menu }}</div>
+<div id="menuChart" style="display: none;">{{ menuChart }}</div>
 <div id="date_1" style="display: none;">{{ date_1 }}</div>
 <div id="date_2" style="display: none;">{{ date_2 }}</div>
 <script src="{%  static 'app/js/monitoring.js' %}"></script>

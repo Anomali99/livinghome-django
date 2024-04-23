@@ -49,6 +49,8 @@ class Link(models.Model):
         return f"no_wa={self.no_wa}, web_link={self.web_link}, fb_link={self.fb_link}, ig_link={self.ig_link}"
     def total_clicks(self):
         return self.web_click + self.ig_click + self.fb_click
+    def total_checkout(self):
+        return self.web_checkout + self.ig_checkout + self.fb_checkout
 
 
 class Date(models.Model):
