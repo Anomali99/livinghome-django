@@ -74,7 +74,11 @@
         <h2>Web Click</h2>
         <h2>IG Click</h2>
         <h2>FB Click</h2>
+        <h2>Web Checkout</h2>
+        <h2>IG Checkout</h2>
+        <h2>FB Checkout</h2>
         <h2>Total Click</h2>
+        <h2>Total Checkout</h2>
       </div>
       {% for product in products %}
       {% with product.links.first as first_link %}
@@ -85,9 +89,11 @@
         <h3>{{ first_link.web_click }}</h3>
         <h3>{{ first_link.ig_click }}</h3>
         <h3>{{ first_link.fb_click }}</h3>
-        <h3>
-          {{ first_link.total_clicks }}
-        </h3>
+        <h3>{{ first_link.web_checkout }}</h3>
+        <h3>{{ first_link.ig_checkout }}</h3>
+        <h3>{{ first_link.fb_checkout }}</h3>
+        <h3>{{ first_link.total_clicks }}</h3>
+        <h3>{{ first_link.total_checkout }}</h3>
       </div>
       {% endwith %}
       {% endfor %}
