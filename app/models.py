@@ -13,6 +13,9 @@ class Product(models.Model):
             return self.title[:max_char] + "..."
         else:
             return self.title
+    def getPrice(self):
+        format = f'{int(self.price):,}'.replace(',', '.')
+        return f'Rp. {format},-'
     
 
 class Image(models.Model):
