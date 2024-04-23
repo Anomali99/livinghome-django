@@ -4,8 +4,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.conf import settings
 from .models import Product, Image, Link, Comment
+from .chart import getDatesAll, getDatesByDate, getDatesProduct, getDatesProductByDate
 from datetime import datetime
-from .generate import generateLink, getChartAll, getChartProduct, getChartByDate, getChartProductByDate
+from .generate import generateLink
 import os
 
 # Create your views here.
@@ -126,30 +127,32 @@ def monitoring(request):
     else:
         idUser = request.session.get('idUser')
         charts = []
-        menu = ''
-        menuChart = ''
-        idProduct = None
+        menu = '1'
+        menuChart = '1'
+        chartInterval = '1'
+        idProduct = '1'
         date1 = datetime.now()
         date2 = datetime.now()
         if request.method == 'POST':
             menu = request.POST.get('cbx-chart')
             menuChart = request.POST.get('chart-style')
+            chartInterval = request.POST.get('chart-interval')
             if menu == '3':
                 date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
                 date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
-                charts = getChartByDate(style=menuChart,idUser=idUser,date1=date1,date2=date2)
+                charts = getDatesByDate(chartInterval=chartInterval,style=menuChart,idUser=idUser,date1=date1,date2=date2)
             elif menu in ['2','4',]:
-                idProduct = Product.objects.filter(id=request.POST.get('id_product')).first()
+                idProduct = request.POST.get('id_product')
                 if menu == '2':
-                    charts = getChartProduct(style=menuChart,idUser=idUser,idProduct=idProduct.id)
+                    charts = getDatesProduct(chartInterval=chartInterval,style=menuChart,idUser=idUser,idProduct=idProduct)
                 elif menu == '4':
                     date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
                     date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
-                    charts = getChartProductByDate(style=menuChart,idUser=idUser,idProduct=idProduct,date1=date1,date2=date2)
+                    charts = getDatesProductByDate(chartInterval=chartInterval,style=menuChart,idUser=idUser,idProduct=idProduct,date1=date1,date2=date2)
             else:
-                charts = getChartAll(style=menuChart, idUser=idUser)
+                charts = getDatesAll(chartInterval=chartInterval,style=menuChart, idUser=idUser)
         else:
-            charts = getChartAll(style='1', idUser=idUser)
+            charts = getDatesAll(chartInterval='1',style='1', idUser=idUser)
 
         context = {
             'login': request.session.get('login'),
@@ -160,5 +163,6 @@ def monitoring(request):
             'date_1':date1.strftime("%Y-%m-%d"),
             'date_2':date2.strftime("%Y-%m-%d"),
             'menuChart':menuChart,
+            'chartInterval':chartInterval,
         }
         return render(request,'app/monitoring.html',context)

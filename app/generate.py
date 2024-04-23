@@ -1,8 +1,4 @@
-from .chart import generateChart, getDatesAll, getDatesByDate, getDatesProduct, getDatesProductByDate
 from urllib.parse import quote
-from datetime import datetime, timedelta
-from django.db.models import Count
-from .models import Date
 import random
 
 def getWALink(no: str, title: str) -> str:
@@ -25,39 +21,3 @@ def getRange(result) -> int:
         if count['total'] > max_range:
             max_range = count['total'] + 10
     return max_range
-
-def getChartAll(style:str,idUser):
-    image_uris = []
-    for x in ['web', 'ig', 'fb']:
-        results = getDatesAll(x)
-        for result in results:
-            filepath = generateChart(style,result,getRange(result),x,idUser)
-            image_uris.append(filepath)
-    return image_uris
-
-def getChartProduct(style:str,idUser,idProduct):
-    image_uris = []
-    for x in ['web', 'ig', 'fb']:
-        results = getDatesProduct(x,idProduct)
-        for result in results:
-            filepath = generateChart(style,result,getRange(result),x,idUser)
-            image_uris.append(filepath)
-    return image_uris
-
-def getChartByDate(style:str,idUser,date1:datetime,date2:datetime):
-    image_uris = []
-    for x in ['web', 'ig', 'fb']:
-        results = getDatesByDate(x,date1,date2)
-        for result in results:
-            filepath = generateChart(style,result,getRange(result),x,idUser)
-            image_uris.append(filepath)
-    return image_uris
-
-def getChartProductByDate(style:str,idUser,idProduct,date1:datetime,date2:datetime):
-    image_uris = []
-    for x in ['web', 'ig', 'fb']:
-        results = getDatesProductByDate(x,idProduct,date1,date2)
-        for result in results:
-            filepath = generateChart(style,result,getRange(result),x,idUser)
-            image_uris.append(filepath)
-    return image_uris
