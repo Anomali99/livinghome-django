@@ -92,10 +92,13 @@ def getDatesProductByDate(platform:str, idProduct, date1:datetime, date2:datetim
     ]
     return intervals
 
-def generateChart(result,max_range:int,platform:str,idUser) -> str:
+def generateChart(style:str,result,max_range:int,platform:str,idUser) -> str:
     indexX = [link['date_class'].strftime(result['dateformat']) for link in result['dates']]
     indexY = [link['total'] for link in result['dates']]
-    plt.bar(indexX, indexY)
+    if style == '1':
+        plt.plot(indexX, indexY)
+    elif style == '2':
+        plt.bar(indexX, indexY)
     plt.gca().set_ylim(0, max_range)
     plt.xlabel('date')
     plt.ylabel('count')
