@@ -1,5 +1,6 @@
 from .models import Product, Date, Link
 from django.http import JsonResponse
+from django.utils import timezone
 from datetime import datetime
 import random
 
@@ -13,7 +14,8 @@ def dummy(request, token):
         product = products[random.randint(1, len(products)-1)]
         link = Link.objects.filter(id_product=product.id).first()
         if link:
-            tgl = f'{str(random.randint(1, 28)).zfill(2)}-{str(random.randint(1, 12)).zfill(2)}-{str(random.randint(2020, 2023))}' 
+            tgl = f'{str(random.randint(1, 28)).zfill(2)}-{str(random.randint(1, 12)).zfill(2)}-{str(random.randint(2023, 2024))} 00:00:00' 
+            my_datetime = timezone.make_aware(timezone.datetime.strptime(tgl, "%d-%m-%Y %H:%M:%S"), timezone.get_current_timezone())
             platform = random.choice(['web','ig','fb'])
             if platform == 'web':
                 webClick = link.web_click
@@ -25,11 +27,25 @@ def dummy(request, token):
                 igClick = link.ig_click
                 link.ig_click = igClick + 1
             link.save()
-            date = Date.objects.create(platform=platform,date=datetime.strptime(tgl, "%d-%m-%Y"),id_link=link)
+            date = Date.objects.create(platform=platform,date=my_datetime,id_link=link)
             date.save()
             result.append({
-                'platform': platform,
-                'date': tgl,
-                'id_link': link.id,
+                "platform": platform,
+                "date": tgl,
+                "id_link": link.id,
             })
-    return JsonResponse(result)
+        click_count = click_count + 1
+    return JsonResponse(result, safe=False)
+
+def remove(request):
+    dates = Date.objects.all()
+    dates.delete()
+    for link in Link.objects.all():
+        link.web_click = 0
+        link.fb_click = 0
+        link.ig_click = 0
+        link.web_checkout = 0
+        link.fb_checkout = 0
+        link.ig_checkout = 0
+        link.save()
+    return JsonResponse({'message':"berhasil hapus"}, safe=False)

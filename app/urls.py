@@ -14,4 +14,5 @@ urlpatterns = [
     path('ig/<token>', api.igLink),
     path('fb/<token>', api.fbLink),
     path('dummy/<token>', testing.dummy),
+    path('remove/', testing.remove),
 ]
