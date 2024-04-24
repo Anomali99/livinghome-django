@@ -19,18 +19,18 @@ def home(request):
 
 def product(request):
     if request.method == 'POST':
-        title = request.POST.get('title')
-        price = request.POST.get('price')
-        description = request.POST.get('description')
-        wa = request.POST.get('wa')
+        title: str = request.POST.get('title')
+        price: str = request.POST.get('price')
+        description: str = request.POST.get('description')
+        wa: str = request.POST.get('wa')
         images = request.FILES.getlist('cover')
-        product = Product.objects.create(
+        product: Product = Product.objects.create(
             title = title,
             description = description,
             price = price,
         )
         product.save()
-        id = Product.objects.order_by('-id').first()
+        id: Product = Product.objects.order_by('-id').first()
         Link.objects.create(
             no_wa = wa,
             web_link = generateLink(id.id),
@@ -40,10 +40,10 @@ def product(request):
         )
         index = 1
         for image in images:
-            now = datetime.now().strftime("%y%m%d%H%M%S")
-            filename = f"{now}{index}.{image.name.rsplit('.',1)[1]}"
+            now: datetime = datetime.now().strftime("%y%m%d%H%M%S")
+            filename: str = f"{now}{index}.{image.name.rsplit('.',1)[1]}"
             Image.objects.create(image_uri=filename, id_product=product)
-            filepath = os.path.join(settings.UPLOAD_DIRS, filename)
+            filepath: str = os.path.join(settings.UPLOAD_DIRS, filename)
             with open(filepath, 'wb+') as f:
                 for chunk in image.chunks():
                     f.write(chunk)
@@ -51,13 +51,13 @@ def product(request):
     return render(request, 'app/product.html')
 
 def detail(request, id):
-    product = Product.objects.filter(id=int(id)).first()
+    product: Product = Product.objects.filter(id=int(id)).first()
     if product:
         if request.method == 'POST':
-            type = request.POST.get('form_type')
+            type: str = request.POST.get('form_type')
             if type == 'addComment':
-                name = request.POST.get('name')
-                comment = request.POST.get('comment')
+                name: str = request.POST.get('name')
+                comment: str = request.POST.get('comment')
                 new = Comment.objects.create(
                     name = name,
                     comment = comment,
@@ -65,15 +65,15 @@ def detail(request, id):
                     )
                 new.save()
             elif type == 'update':
-                action = request.POST.get('action')
+                action: str = request.POST.get('action')
                 if action == 'update':
-                    title = request.POST.get('title')
-                    price = request.POST.get('price')
-                    description = request.POST.get('description')
-                    wa = request.POST.get('wa')
-                    webCheckout = request.POST.get('webCheckout')
-                    igCheckout = request.POST.get('igCheckout')
-                    fbCheckout = request.POST.get('fbCheckout')
+                    title: str = request.POST.get('title')
+                    price: str = request.POST.get('price')
+                    description: str = request.POST.get('description')
+                    wa: str = request.POST.get('wa')
+                    webCheckout: int = request.POST.get('webCheckout')
+                    igCheckout: int = request.POST.get('igCheckout')
+                    fbCheckout: int = request.POST.get('fbCheckout')
                     product.title = title
                     product.price = price
                     product.description =description
@@ -100,11 +100,11 @@ def detail(request, id):
 def admin(request):
     if request.session.get('login'):
         return HttpResponseRedirect('/')
-    message = ''
+    message: str = ''
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = User.objects.filter(username=username).first()
+        username: str = request.POST.get('username')
+        password: str = request.POST.get('password')
+        user: User = User.objects.filter(username=username).first()
         if user and check_password(password, user.password):
             request.session['login'] = True
             request.session['idUser'] = user.id
@@ -125,14 +125,14 @@ def monitoring(request):
     if request.session.get('login') != True:
         return HttpResponseRedirect('/')
     else:
-        idUser = request.session.get('idUser')
-        charts = []
-        menu = '1'
-        menuChart = '1'
-        chartInterval = '1'
-        idProduct = '1'
-        date1 = datetime.now()
-        date2 = datetime.now()
+        idUser: int = request.session.get('idUser')
+        charts: list[str] = []
+        menu: str = '1'
+        menuChart: str = '1'
+        chartInterval: str = '1'
+        idProduct: str = '1'
+        date1: datetime = datetime.now()
+        date2: datetime = datetime.now()
         if request.method == 'POST':
             menu = request.POST.get('cbx-chart')
             menuChart = request.POST.get('chart-style')
@@ -142,7 +142,7 @@ def monitoring(request):
                 date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
                 charts = getDatesByDate(chartInterval=chartInterval,style=menuChart,idUser=idUser,date1=date1,date2=date2)
             elif menu in ['2','4',]:
-                idProduct = request.POST.get('id_product')
+                idProduct: int = request.POST.get('id_product')
                 if menu == '2':
                     charts = getDatesProduct(chartInterval=chartInterval,style=menuChart,idUser=idUser,idProduct=idProduct)
                 elif menu == '4':

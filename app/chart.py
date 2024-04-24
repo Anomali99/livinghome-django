@@ -11,8 +11,8 @@ import os
 
 matplotlib.use('Agg') 
 
-def getDatesAll(chartInterval:str,style:str,idUser):
-    intervals = []
+def getDatesAll(chartInterval:str,style:str,idUser:int) -> list[str]:
+    intervals: list[Date] = []
     for x in ['web', 'ig', 'fb']:
         if chartInterval == '1':
             intervals.append({
@@ -37,8 +37,8 @@ def getDatesAll(chartInterval:str,style:str,idUser):
             })
     return generateChart(style,intervals,idUser)
 
-def getDatesByDate(chartInterval:str,style:str,idUser,date1:datetime,date2:datetime):
-    intervals = []
+def getDatesByDate(chartInterval:str,style:str,idUser:int,date1:datetime,date2:datetime) -> list[str]:
+    intervals: list[Date] = []
     for x in ['web', 'ig', 'fb']:
         if chartInterval == '1':
             intervals.append({
@@ -63,9 +63,9 @@ def getDatesByDate(chartInterval:str,style:str,idUser,date1:datetime,date2:datet
             })
     return generateChart(style,intervals,idUser)
 
-def getDatesProduct(chartInterval:str,style:str,idUser,idProduct):
+def getDatesProduct(chartInterval:str,style:str,idUser:int,idProduct:int) -> list[str]:
     link = Link.objects.filter(id_product=idProduct).first()
-    intervals = []
+    intervals: list[Date] = []
     for x in ['web', 'ig', 'fb']:
         if chartInterval == '1':
             intervals.append({
@@ -90,9 +90,9 @@ def getDatesProduct(chartInterval:str,style:str,idUser,idProduct):
             })
     return generateChart(style,intervals,idUser)
 
-def getDatesProductByDate(chartInterval:str,style:str,idUser,idProduct,date1:datetime,date2:datetime):
+def getDatesProductByDate(chartInterval:str,style:str,idUser:int,idProduct:int,date1:datetime,date2:datetime) -> list[str]:
     link = Link.objects.filter(id_product=idProduct).first()
-    intervals = []
+    intervals: list[Date] = []
     for x in ['web', 'ig', 'fb']:
         if chartInterval == '1':
             intervals.append({
@@ -117,11 +117,11 @@ def getDatesProductByDate(chartInterval:str,style:str,idUser,idProduct,date1:dat
             })
     return generateChart(style,intervals,idUser)
 
-def generateChart(style:str,results,idUser) -> list[str]:
-    filepaths = []
+def generateChart(style:str,results:list[Date],idUser:int) -> list[str]:
+    filepaths: list[str] = []
     for result in results:
-        indexX = [link['date_class'].strftime(result['dateformat']) for link in result['dates']]
-        indexY = [link['total'] for link in result['dates']]
+        indexX: list[str] = [link['date_class'].strftime(result['dateformat']) for link in result['dates']]
+        indexY: list[int] = [link['total'] for link in result['dates']]
         if style == '1':
             plt.plot(indexX, indexY)
         elif style == '2':
@@ -130,7 +130,7 @@ def generateChart(style:str,results,idUser) -> list[str]:
         plt.xlabel('date')
         plt.ylabel('count')
         plt.title(f'click pada {result["platform"]} interval {result["title"]}')  
-        filepath = os.path.join(settings.EXPORT_DIRS, f'{result["platform"]}Chart_{str(idUser)}.png')
+        filepath: str = os.path.join(settings.EXPORT_DIRS, f'{result["platform"]}Chart_{str(idUser)}.png')
         try:
             plt.savefig(filepath)
         except Exception as e:
