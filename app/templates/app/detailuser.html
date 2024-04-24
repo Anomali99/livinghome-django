@@ -35,11 +35,14 @@
   </div>
 </div>
 
-{% if product.comments %}
+{% with product.comments.first as comment%}
+{% if comment %}
 <br />
 <h1>Comment</h1>
 <br />
-{% endif %} {% for comment in product.comments.all %}
+{% endif %}
+{% endwith %} 
+{% for comment in product.comments.all %}
 <div class="comment-container">
   <h3>{{ comment.name }}</h3>
   <p>{{ comment.comment }}</p>

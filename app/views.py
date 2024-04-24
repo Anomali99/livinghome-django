@@ -3,6 +3,7 @@ from django.contrib.auth.hashers import check_password
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.conf import settings
+from django.utils import timezone
 from .models import Product, Image, Link, Comment
 from .chart import getDatesAll, getDatesByDate, getDatesProduct, getDatesProductByDate
 from datetime import datetime
@@ -126,6 +127,7 @@ def monitoring(request):
         return HttpResponseRedirect('/')
     else:
         idUser: int = request.session.get('idUser')
+        titleProduct: str = None
         charts: list[str] = []
         menu: str = '1'
         menuChart: str = '1'
@@ -137,23 +139,24 @@ def monitoring(request):
             menu = request.POST.get('cbx-chart')
             menuChart = request.POST.get('chart-style')
             chartInterval = request.POST.get('chart-interval')
-            if menu == '3':
-                date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
-                date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
-                charts = getDatesByDate(chartInterval=chartInterval,style=menuChart,idUser=idUser,date1=date1,date2=date2)
-            elif menu in ['2','4',]:
-                idProduct: int = request.POST.get('id_product')
-                if menu == '2':
-                    charts = getDatesProduct(chartInterval=chartInterval,style=menuChart,idUser=idUser,idProduct=idProduct)
+            if menu in ['3','4']:
+                date1 = timezone.make_aware(timezone.datetime.strptime(f"{request.POST.get('date1')} 00:00:00", "%Y-%m-%d %H:%M:%S"), timezone.get_current_timezone())
+                date2 = timezone.make_aware(timezone.datetime.strptime(f"{request.POST.get('date2')} 00:00:00", "%Y-%m-%d %H:%M:%S"), timezone.get_current_timezone())
+                if menu == '3':
+                    charts = getDatesByDate(chartInterval=chartInterval,style=menuChart,idUser=idUser,date1=date1,date2=date2)
                 elif menu == '4':
-                    date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
-                    date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
+                    idProduct: int = request.POST.get('id_product')
+                    titleProduct: int = request.POST.get('title_product')
                     charts = getDatesProductByDate(chartInterval=chartInterval,style=menuChart,idUser=idUser,idProduct=idProduct,date1=date1,date2=date2)
+            elif menu == '2':
+                idProduct: int = request.POST.get('id_product')
+                titleProduct: int = request.POST.get('title_product')
+                charts = getDatesProduct(chartInterval=chartInterval,style=menuChart,idUser=idUser,idProduct=idProduct)
             else:
                 charts = getDatesAll(chartInterval=chartInterval,style=menuChart, idUser=idUser)
         else:
-            charts = getDatesAll(chartInterval='1',style='1', idUser=idUser)
-
+            charts = getDatesAll(chartInterval=chartInterval,style=menuChart, idUser=idUser)
+        
         context = {
             'login': request.session.get('login'),
             'products': Product.objects.all(),
@@ -164,5 +167,6 @@ def monitoring(request):
             'date_2':date2.strftime("%Y-%m-%d"),
             'menuChart':menuChart,
             'chartInterval':chartInterval,
+            'titleProduct':titleProduct,
         }
         return render(request,'app/monitoring.html',context)

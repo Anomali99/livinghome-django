@@ -2,6 +2,7 @@ var dateBetween = document.querySelector(".date-between");
 var listProduct = document.querySelector(".list-product");
 var items = document.querySelectorAll(".product");
 var idProduct = document.getElementById("id_product");
+var titleProduct = document.getElementById("title_product");
 
 document.getElementById("cbx-chart").addEventListener("change", function () {
   var value = this.value;
@@ -25,9 +26,10 @@ document.getElementById("cbx-chart").addEventListener("change", function () {
   }
 });
   
-function selected(id) {
+function selected(id,title) {
   var item = document.getElementById(`product-${id}`);
   idProduct.value = id;
+  titleProduct.value = title;
   Array.from(items).forEach((element) => {
     element.style.backgroundColor = "#fff";
   });
