@@ -49,6 +49,7 @@ def product(request):
                 for chunk in image.chunks():
                     f.write(chunk)
             index = index + 1
+        return HttpResponseRedirect(f'/detail/{id.id}')
     return render(request, 'app/product.html')
 
 def detail(request, id):
