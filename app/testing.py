@@ -1,4 +1,4 @@
-from .models import Product, Date, Link
+from .models import Product, Date, Link, Comment
 from django.http import JsonResponse
 from django.utils import timezone
 from datetime import datetime
@@ -48,4 +48,9 @@ def remove(request):
         link.fb_checkout = 0
         link.ig_checkout = 0
         link.save()
+    return JsonResponse({'message':"berhasil hapus"}, safe=False)
+
+def removeComment(request):
+    comments = Comment.objects.all()
+    comments.delete()
     return JsonResponse({'message':"berhasil hapus"}, safe=False)

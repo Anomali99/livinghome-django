@@ -15,4 +15,5 @@ urlpatterns = [
     path('fb/<token>', api.fbLink),
     path('dummy/<token>', testing.dummy),
     path('remove/', testing.remove),
+    path('remove/comment', testing.removeComment),
 ]
