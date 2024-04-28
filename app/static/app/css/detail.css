@@ -3,7 +3,136 @@ section {
   margin-bottom: 1rem;
   padding: 0.5rem 7%;
 }
+/*  */
+.product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  gap: 1.5rem;
+  position: relative;
+}
 
+.product-container .image-container .image-preview {
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1/1;
+  display: block;
+  border: 2px solid #aaa;
+}
+
+.product-container .images {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.product-container .images .image-list {
+  margin-right: 1rem;
+  border: 2px solid #aaa;
+  width: 5rem;
+  height: 5rem;
+}
+.product-container .images .image-list img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.detail {
+  border-radius: 0.9rem;
+  width: 100%;
+  display: block;
+}
+
+h1 {
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-family: "areo", sans-serif;
+}
+
+h2 {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  font-family: "areo", sans-serif;
+  color: brown;
+}
+
+.description {
+  margin-top: 1rem;
+  font-size: 1rem;
+  height: 35em;
+  font-family: "arial", sans-serif;
+  text-align: justify;
+}
+
+.comment {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  background-color: #0000004d;
+  height: 100vh;
+  padding: 20%;
+}
+
+.comment-panel {
+  border: 3px solid #aaa;
+  background: #fff;
+}
+
+.comment-panel h1 {
+  text-align: center;
+}
+
+form {
+  padding: 1rem;
+}
+
+label {
+  font-family: "areo", sans-serif;
+  font-size: 1.5rem;
+}
+
+textarea,
+input {
+  font-family: "areo", sans-serif;
+  margin-top: 0.8rem;
+  margin-bottom: 1em;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  width: 100%;
+  padding: 10px;
+}
+
+button {
+  background-color: #aaa;
+  width: 40%;
+  color: #fff;
+  font-family: "areo", sans-serif;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  margin-left: 60%;
+  cursor: pointer;
+}
+
+.btn-comment {
+  cursor: pointer;
+  text-align: center;
+  border-radius: 0.5rem;
+  width: 40%;
+  color: #fff;
+  font-family: "areo", sans-serif;
+  background-color: #aaa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*  */
 .product-preview {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
@@ -37,26 +166,6 @@ section {
   margin-left: 5px;
 }
 
-h1 {
-  margin-top: 1rem;
-  font-size: 2rem;
-  font-family: "areo", sans-serif;
-}
-
-h2 {
-  margin-top: 0.5rem;
-  font-size: 1rem;
-  font-family: "areo", sans-serif;
-}
-
-.description {
-  margin-top: 1rem;
-  font-size: 1rem;
-  height: 50%;
-  font-family: "arial", sans-serif;
-  text-align: justify;
-}
-
 .btn-container {
   margin-top: 1rem;
   display: flex;
@@ -66,69 +175,12 @@ h2 {
 #btn-wa {
   margin-left: auto;
   width: 10rem;
-}
-
-.detail-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-  gap: 1.5rem;
-  position: relative;
-}
-
-.detail {
-  border-radius: 0.9rem;
-  width: 100%;
-  display: block;
-}
-
-.comment {
-  border: 3px solid #aaa;
-  margin-top: 1rem;
-}
-
-.comment .header {
-  background-color: #aaa;
-  border-top-right-radius: 0.5rem;
-  border-top-left-radius: 0.5rem;
-  padding: 10px;
-  text-align: center;
-}
-
-.comment .header h1 {
-  font-family: "areo", sans-serif;
-  font-size: 2rem;
-  margin: 0;
-}
-
-form {
-  padding: 1rem;
-}
-
-label {
-  font-family: "areo", sans-serif;
-  font-size: 1.5rem;
-}
-
-textarea,
-input {
-  font-family: "areo", sans-serif;
-  margin-top: 0.8rem;
-  margin-bottom: 1em;
-  font-size: 1rem;
-  border: 1px solid #aaa;
-  width: 100%;
-  padding: 10px;
+  cursor: pointer;
 }
 
 .btn-submit button {
-  background-color: #aaa;
+  margin-left: 1rem;
   width: 100%;
-  color: #fff;
-  font-family: "areo", sans-serif;
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  margin: 0.5rem;
 }
 
 .btn-submit {

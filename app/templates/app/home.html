@@ -28,7 +28,7 @@
         </div>
         <div class="product-content">
           <h3>{{ product.title }}</h3>
-          <div class="product-price">IDR {{ product.price }}</div>
+          <div class="product-price">{{ product.getPrice }}</div>
         </div></a
       >
       {% endwith %}

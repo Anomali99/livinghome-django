@@ -3,9 +3,11 @@ from django.contrib.auth.hashers import check_password
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.conf import settings
+from django.utils import timezone
 from .models import Product, Image, Link, Comment
+from .chart import getDatesAll, getDatesByDate, getDatesProduct, getDatesProductByDate
 from datetime import datetime
-from .generate import generateLink, getChartAll, getChartProduct, getChartByDate, getChartProductByDate
+from .generate import generateLink
 import os
 
 # Create your views here.
@@ -18,18 +20,18 @@ def home(request):
 
 def product(request):
     if request.method == 'POST':
-        title = request.POST.get('title')
-        price = request.POST.get('price')
-        description = request.POST.get('description')
-        wa = request.POST.get('wa')
+        title: str = request.POST.get('title')
+        price: str = request.POST.get('price')
+        description: str = request.POST.get('description')
+        wa: str = request.POST.get('wa')
         images = request.FILES.getlist('cover')
-        product = Product.objects.create(
+        product: Product = Product.objects.create(
             title = title,
             description = description,
             price = price,
         )
         product.save()
-        id = Product.objects.order_by('-id').first()
+        id: Product = Product.objects.order_by('-id').first()
         Link.objects.create(
             no_wa = wa,
             web_link = generateLink(id.id),
@@ -39,24 +41,25 @@ def product(request):
         )
         index = 1
         for image in images:
-            now = datetime.now().strftime("%y%m%d%H%M%S")
-            filename = f"{now}{index}.{image.name.rsplit('.',1)[1]}"
+            now: datetime = datetime.now().strftime("%y%m%d%H%M%S")
+            filename: str = f"{now}{index}.{image.name.rsplit('.',1)[1]}"
             Image.objects.create(image_uri=filename, id_product=product)
-            filepath = os.path.join(settings.UPLOAD_DIRS, filename)
+            filepath: str = os.path.join(settings.UPLOAD_DIRS, filename)
             with open(filepath, 'wb+') as f:
                 for chunk in image.chunks():
                     f.write(chunk)
             index = index + 1
+        return HttpResponseRedirect(f'/detail/{id.id}')
     return render(request, 'app/product.html')
 
 def detail(request, id):
-    product = Product.objects.filter(id=int(id)).first()
+    product: Product = Product.objects.filter(id=int(id)).first()
     if product:
         if request.method == 'POST':
-            type = request.POST.get('form_type')
+            type: str = request.POST.get('form_type')
             if type == 'addComment':
-                name = request.POST.get('name')
-                comment = request.POST.get('comment')
+                name: str = request.POST.get('name')
+                comment: str = request.POST.get('comment')
                 new = Comment.objects.create(
                     name = name,
                     comment = comment,
@@ -64,15 +67,15 @@ def detail(request, id):
                     )
                 new.save()
             elif type == 'update':
-                action = request.POST.get('action')
+                action: str = request.POST.get('action')
                 if action == 'update':
-                    title = request.POST.get('title')
-                    price = request.POST.get('price')
-                    description = request.POST.get('description')
-                    wa = request.POST.get('wa')
-                    webCheckout = request.POST.get('webCheckout')
-                    igCheckout = request.POST.get('igCheckout')
-                    fbCheckout = request.POST.get('fbCheckout')
+                    title: str = request.POST.get('title')
+                    price: str = request.POST.get('price')
+                    description: str = request.POST.get('description')
+                    wa: str = request.POST.get('wa')
+                    webCheckout: int = request.POST.get('webCheckout')
+                    igCheckout: int = request.POST.get('igCheckout')
+                    fbCheckout: int = request.POST.get('fbCheckout')
                     product.title = title
                     product.price = price
                     product.description =description
@@ -99,11 +102,11 @@ def detail(request, id):
 def admin(request):
     if request.session.get('login'):
         return HttpResponseRedirect('/')
-    message = ''
+    message: str = ''
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = User.objects.filter(username=username).first()
+        username: str = request.POST.get('username')
+        password: str = request.POST.get('password')
+        user: User = User.objects.filter(username=username).first()
         if user and check_password(password, user.password):
             request.session['login'] = True
             request.session['idUser'] = user.id
@@ -124,33 +127,37 @@ def monitoring(request):
     if request.session.get('login') != True:
         return HttpResponseRedirect('/')
     else:
-        idUser = request.session.get('idUser')
-        charts = []
-        menu = ''
-        menuChart = ''
-        idProduct = None
-        date1 = datetime.now()
-        date2 = datetime.now()
+        idUser: int = request.session.get('idUser')
+        titleProduct: str = None
+        charts: list[str] = []
+        menu: str = '1'
+        menuChart: str = '1'
+        chartInterval: str = '1'
+        idProduct: str = '1'
+        date1: datetime = datetime.now()
+        date2: datetime = datetime.now()
         if request.method == 'POST':
             menu = request.POST.get('cbx-chart')
             menuChart = request.POST.get('chart-style')
-            if menu == '3':
-                date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
-                date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
-                charts = getChartByDate(style=menuChart,idUser=idUser,date1=date1,date2=date2)
-            elif menu in ['2','4',]:
-                idProduct = Product.objects.filter(id=request.POST.get('id_product')).first()
-                if menu == '2':
-                    charts = getChartProduct(style=menuChart,idUser=idUser,idProduct=idProduct.id)
+            chartInterval = request.POST.get('chart-interval')
+            if menu in ['3','4']:
+                date1 = timezone.make_aware(timezone.datetime.strptime(f"{request.POST.get('date1')} 00:00:00", "%Y-%m-%d %H:%M:%S"), timezone.get_current_timezone())
+                date2 = timezone.make_aware(timezone.datetime.strptime(f"{request.POST.get('date2')} 00:00:00", "%Y-%m-%d %H:%M:%S"), timezone.get_current_timezone())
+                if menu == '3':
+                    charts = getDatesByDate(chartInterval=chartInterval,style=menuChart,idUser=idUser,date1=date1,date2=date2)
                 elif menu == '4':
-                    date1 = datetime.strptime(request.POST.get('date1'), "%Y-%m-%d") 
-                    date2 = datetime.strptime(request.POST.get('date2'), "%Y-%m-%d") 
-                    charts = getChartProductByDate(style=menuChart,idUser=idUser,idProduct=idProduct,date1=date1,date2=date2)
+                    idProduct: int = request.POST.get('id_product')
+                    titleProduct: int = request.POST.get('title_product')
+                    charts = getDatesProductByDate(chartInterval=chartInterval,style=menuChart,idUser=idUser,idProduct=idProduct,date1=date1,date2=date2)
+            elif menu == '2':
+                idProduct: int = request.POST.get('id_product')
+                titleProduct: int = request.POST.get('title_product')
+                charts = getDatesProduct(chartInterval=chartInterval,style=menuChart,idUser=idUser,idProduct=idProduct)
             else:
-                charts = getChartAll(style=menuChart, idUser=idUser)
+                charts = getDatesAll(chartInterval=chartInterval,style=menuChart, idUser=idUser)
         else:
-            charts = getChartAll(style='1', idUser=idUser)
-
+            charts = getDatesAll(chartInterval=chartInterval,style=menuChart, idUser=idUser)
+        
         context = {
             'login': request.session.get('login'),
             'products': Product.objects.all(),
@@ -160,5 +167,7 @@ def monitoring(request):
             'date_1':date1.strftime("%Y-%m-%d"),
             'date_2':date2.strftime("%Y-%m-%d"),
             'menuChart':menuChart,
+            'chartInterval':chartInterval,
+            'titleProduct':titleProduct,
         }
         return render(request,'app/monitoring.html',context)
