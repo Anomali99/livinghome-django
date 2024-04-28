@@ -6,16 +6,55 @@
 />
 {% endblock %} {% block content %}
 <section>
-  <div class="product-preview">
-    {% for image in product.images.all %}
-    <img
-      src="{% static 'upload/' %}{{ image.image_uri }}"
-      class="bg"
-      alt="ok"
-    />
-    {% endfor %}
+  <div class="product-container">
+    <div class="image-container">
+      {% with product.images.first as first_image %}
+      <img
+        class="image-preview"
+        id="preview-image"
+        src="{% static 'upload/' %}{{ first_image.image_uri }}"
+        alt="preview-image"
+      />
+      {% endwith %}
+      <div class="images">
+        {% for image in product.images.all %}
+        <div class="image-list" id="list-{{ image.image_uri }}">
+          <a
+            onclick="setImagePreview(`{% static 'upload/' %}`,`{{ image.image_uri }}`)"
+          >
+            <img
+              src="{% static 'upload/' %}{{ image.image_uri }}"
+              alt="{{ image.image_uri }}"
+            />
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="detail-product">
+      {% if login %}
+      <!--  -->
+      {% include 'app/detailadmin.html' %}
+      <!--  -->
+      {% else %}
+      <!--  -->
+      {% include 'app/detailuser.html' %}
+      <!--  -->
+      {% endif %}
+    </div>
   </div>
-  {% if login %} {% include 'app/detailadmin.html' %} {% else %} 
-  {% include 'app/detailuser.html' %} {% endif %}
+
+  {% with product.comments.first as comment%} {% if comment %}
+  <br />
+  <h1>Comment</h1>
+  <br />
+  {% endif %} {% endwith %} {% for comment in product.comments.all %}
+  <div class="comment-container">
+    <h3>{{ comment.name }}</h3>
+    <p>{{ comment.comment }}</p>
+  </div>
+  {% endfor %}
 </section>
-{% endblock %} {% block scriptApp %} {% endblock %}
+{% endblock %} {% block scriptApp %}
+<script src="{%  static 'app/js/detail.js' %}"></script>
+{% endblock %}

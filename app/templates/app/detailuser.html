@@ -1,10 +1,18 @@
-{% load static %} 
+{% load static %}
 <div class="detail-container">
   <div class="detail">
     <h1>{{ product.title }}</h1>
     <h2>{{ product.getPrice }}</h2>
     <textarea class="description">{{ product.description }}</textarea>
+    {% with product.links.first as link %}
     <div class="btn-container">
+      <a
+        class="btn-comment"
+        onclick="addComment()"
+        style="background-color: #aaa"
+      >
+        add comment
+      </a>
       <img
         id="btn-wa"
         src="{% static 'app/asset/img/btnWA.png' %}"
@@ -12,39 +20,35 @@
         onclick="window.location.href='/web/{{ link.web_link }}'"
       />
     </div>
+    {% endwith %}
   </div>
-  <div class="detail comment">
-    <div class="header">
+  <div class="comment" id="comment">
+    <div class="comment-panel">
       <h1>Add Comment</h1>
+      <form method="post">
+        {% csrf_token %}
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="name" name="name" />
+        <label>Comment</label>
+        <textarea
+          name="comment"
+          id="comment"
+          placeholder="comment"
+          cols="30"
+          rows="5"
+        ></textarea>
+        <input type="hidden" name="form_type" value="addComment" />
+        <div class="btn-submit">
+          <a
+            class="btn-comment"
+            onclick="cancelComment()"
+            style="background-color: red"
+          >
+            cancel
+          </a>
+          <button type="submit" style="background-color: green">send</button>
+        </div>
+      </form>
     </div>
-    <form method="post">
-      {% csrf_token %}
-      <label for="name">Name</label>
-      <input type="text" id="name" placeholder="name" name="name" />
-      <label>Comment</label>
-      <textarea
-        name="comment"
-        id="comment"
-        placeholder="comment"
-        cols="30"
-        rows="5"
-      ></textarea>
-      <input type="hidden" name="form_type" value="addComment" />
-      <button type="submit">send</button>
-    </form>
   </div>
 </div>
-
-{% with product.comments.first as comment%}
-{% if comment %}
-<br />
-<h1>Comment</h1>
-<br />
-{% endif %}
-{% endwith %} 
-{% for comment in product.comments.all %}
-<div class="comment-container">
-  <h3>{{ comment.name }}</h3>
-  <p>{{ comment.comment }}</p>
-</div>
-{% endfor %}
