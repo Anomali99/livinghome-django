@@ -122,6 +122,7 @@ def generateChart(style:str,results:list[Date],idUser:int) -> list[str]:
     for result in results:
         indexX: list[str] = [link['date_class'].strftime(result['dateformat']) for link in result['dates']]
         indexY: list[int] = [link['total'] for link in result['dates']]
+        # plt.figure(figsize = (19, 10))
         if style == '1':
             plt.plot(indexX, indexY)
         elif style == '2':
